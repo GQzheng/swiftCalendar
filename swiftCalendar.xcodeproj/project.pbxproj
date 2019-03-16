@@ -15,6 +15,7 @@
 		5DB14F3B21EED32500DD662B /* swiftCalendarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB14F3A21EED32500DD662B /* swiftCalendarUITests.swift */; };
 		5DB14F4A21EED6CA00DD662B /* ZGSectionScalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB14F4921EED6CA00DD662B /* ZGSectionScalendarViewController.swift */; };
 		5DF6608A21EF383B006ED857 /* ZGSectionCalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6608921EF383B006ED857 /* ZGSectionCalendarModel.swift */; };
+		5DF8352E223CF9800056F7B5 /* xiaoguoTu.png in Resources */ = {isa = PBXBuildFile; fileRef = 5DF8352D223CF9800056F7B5 /* xiaoguoTu.png */; };
 		5DFCBAC12217F66300B6036D /* ZGScalendarReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFCBAC02217F66300B6036D /* ZGScalendarReusableView.swift */; };
 		5DFD48572216696B0071B9ED /* ZGSScalendarViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFD48562216696B0071B9ED /* ZGSScalendarViewCell.swift */; };
 		5DFD48632216A08B0071B9ED /* ZGSScalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFD48622216A08B0071B9ED /* ZGSScalendarManager.swift */; };
@@ -53,6 +54,7 @@
 		5DB14F3C21EED32500DD662B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DB14F4921EED6CA00DD662B /* ZGSectionScalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZGSectionScalendarViewController.swift; sourceTree = "<group>"; };
 		5DF6608921EF383B006ED857 /* ZGSectionCalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZGSectionCalendarModel.swift; sourceTree = "<group>"; };
+		5DF8352D223CF9800056F7B5 /* xiaoguoTu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xiaoguoTu.png; sourceTree = "<group>"; };
 		5DFCBAC02217F66300B6036D /* ZGScalendarReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZGScalendarReusableView.swift; sourceTree = "<group>"; };
 		5DFD48562216696B0071B9ED /* ZGSScalendarViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZGSScalendarViewCell.swift; sourceTree = "<group>"; };
 		5DFD48622216A08B0071B9ED /* ZGSScalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZGSScalendarManager.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		5DB14F1921EED32400DD662B /* swiftCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				5DF8352D223CF9800056F7B5 /* xiaoguoTu.png */,
 				5DB14F4821EED3AB00DD662B /* ZGSectionCalendar */,
 				5DB14F1A21EED32400DD662B /* AppDelegate.swift */,
 				5DB14F1C21EED32400DD662B /* ViewController.swift */,
@@ -252,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DF8352E223CF9800056F7B5 /* xiaoguoTu.png in Resources */,
 				5DB14F2521EED32500DD662B /* LaunchScreen.storyboard in Resources */,
 				5DB14F2221EED32500DD662B /* Assets.xcassets in Resources */,
 			);
