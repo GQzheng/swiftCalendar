@@ -16,11 +16,15 @@ enum ZGSenctionSelectType{ //日历选择的类型 可选一天日期/可选一�
     case ZGSenctionSelectTypeOneDate
     case ZGSenctionSelectTypeAreaDate
 }
-
 protocol ScalendarProtocol:NSObjectProtocol {
     func callBack(beginTime:Int,endTime:Int?)
+    func onleSelectOneDateCallBack(selectTime:Int?)
 }
 
+extension ScalendarProtocol{
+    func callBack(beginTime:Int,endTime:Int?) {}
+    func onleSelectOneDateCallBack(selectTime:Int?) {}
+}
 public let defaultTextColor =  UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)//默认字体颜色
 public let selectDateBackGroundColor =  UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 1)//选中日期背景色
 public let failureDateTextColor =  UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)//过期日期字体颜色
@@ -232,7 +236,7 @@ extension ZGSectionScalendarViewController:UICollectionViewDelegate,UICollection
         if self.selectType == ZGSenctionSelectType.ZGSenctionSelectTypeOneDate {
                 startDate = calendarItem.dateInterval
                 if endDelegate != nil {
-                    endDelegate?.callBack(beginTime: startDate!, endTime: 0)
+                    endDelegate?.onleSelectOneDateCallBack(selectTime: startDate)
                 }
                  self.navigationController?.dismiss(animated: true, completion: nil)
             return

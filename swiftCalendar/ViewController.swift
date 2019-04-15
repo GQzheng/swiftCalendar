@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         zg.endDelegate = self
         zg.startDate = startDate
         zg.endDate = endDate
-//        zg.selectType = ZGSenctionSelectType.ZGSenctionSelectTypeOneDate
+        zg.selectType = ZGSenctionSelectType.ZGSenctionSelectTypeOneDate
         
         let nav = UINavigationController.init(rootViewController: zg)
         zg.title = "入住离店日期"
@@ -73,15 +73,20 @@ class ViewController: UIViewController {
 }
 
 extension ViewController:ScalendarProtocol{
-    func callBack(beginTime: Int, endTime: Int?) {
-        startDate = beginTime;
-        endDate = endTime;
-    
+    func callBack(beginTime: Int, endTime: Int?) { // 区间走这个方法
+        startDate = beginTime
+        endDate = endTime
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         startLabel.text = dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(beginTime)))
         endLabel.text = endTime! > 0 ? dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(endTime!))) : ""
     }
     
+    func onleSelectOneDateCallBack(selectTime: Int?) {//单独选一个日期走这个方法
+        startDate = selectTime!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        startLabel.text = dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(selectTime!)))
+    }
     
 }
