@@ -58,13 +58,13 @@ class ViewController: UIViewController {
     @objc func calendarClick() {
         let zg = ZGSectionScalendarViewController()
         zg.limitMonth = 12 * 15
-        zg.type = ZGSenctionScalendarType.ZGSenctionScalendarFutureType
         zg.BeforeTodayCanTouch = false
         zg.afterTodayCanTouch = true
         zg.endDelegate = self
         zg.startDate = startDate
         zg.endDate = endDate
-        zg.selectType = ZGSenctionSelectType.ZGSenctionSelectTypeOneDate
+        zg.type = ZGSenctionScalendarType.ZGSenctionScalendarFutureType//默认展示 future
+        zg.selectType = ZGSenctionSelectType.ZGSenctionSelectTypeOneDate//默认区间选择
         
         let nav = UINavigationController.init(rootViewController: zg)
         zg.title = "入住离店日期"
@@ -73,20 +73,20 @@ class ViewController: UIViewController {
 }
 
 extension ViewController:ScalendarProtocol{
-    func callBack(beginTime: Int, endTime: Int?) { // 区间走这个方法
+    func callBack(beginTime: Int, endTime: Int) { // 区间走这个方法
         startDate = beginTime
         endDate = endTime
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         startLabel.text = dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(beginTime)))
-        endLabel.text = endTime! > 0 ? dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(endTime!))) : ""
+        endLabel.text = endTime > 0 ? dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(endTime))) : ""
     }
     
-    func onleSelectOneDateCallBack(selectTime: Int?) {//单独选一个日期走这个方法
-        startDate = selectTime!
+    func onleSelectOneDateCallBack(selectTime: Int) {//单独选一个日期走这个方法
+        startDate = selectTime
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        startLabel.text = dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(selectTime!)))
+        startLabel.text = dateFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(selectTime)))
     }
     
 }

@@ -17,13 +17,13 @@ enum ZGSenctionSelectType{ //日历选择的类型 可选一天日期/可选一�
     case ZGSenctionSelectTypeAreaDate
 }
 protocol ScalendarProtocol:NSObjectProtocol {
-    func callBack(beginTime:Int,endTime:Int?)
-    func onleSelectOneDateCallBack(selectTime:Int?)
+    func callBack(beginTime:Int,endTime:Int)
+    func onleSelectOneDateCallBack(selectTime:Int)
 }
 
 extension ScalendarProtocol{
-    func callBack(beginTime:Int,endTime:Int?) {}
-    func onleSelectOneDateCallBack(selectTime:Int?) {}
+    func callBack(beginTime:Int,endTime:Int) {}
+    func onleSelectOneDateCallBack(selectTime:Int) {}
 }
 public let defaultTextColor =  UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)//默认字体颜色
 public let selectDateBackGroundColor =  UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 1)//选中日期背景色
@@ -35,8 +35,8 @@ class ZGSectionScalendarViewController: UIViewController {
     var endDate   : Int? = 0
     var limitMonth: NSInteger?
     
-    var type : ZGSenctionScalendarType!
-    var selectType : ZGSenctionSelectType!
+    var type : ZGSenctionScalendarType = ZGSenctionScalendarType.ZGSenctionScalendarFutureType
+    var selectType : ZGSenctionSelectType = ZGSenctionSelectType.ZGSenctionSelectTypeAreaDate
     var afterTodayCanTouch : Bool = true
     var BeforeTodayCanTouch: Bool = false
     var showChineseHoliday :Bool = true
@@ -76,7 +76,7 @@ class ZGSectionScalendarViewController: UIViewController {
     func initDataSource() {
         DispatchQueue.global().async {
             let manager = ZGSScalendarManager.init(showChineseHoliday: self.showChineseHoliday, showChineseCalendar: self.ShowChineseCalendar, startDate: self.startDate!)
-            let tempDataArray = manager.getCalendarDataSoruce(limitMonth: self.limitMonth!, type: self.type!)
+            let tempDataArray = manager.getCalendarDataSoruce(limitMonth: self.limitMonth!, type: self.type)
             
             DispatchQueue.main.async {
                 self.dataArray += tempDataArray
@@ -236,7 +236,7 @@ extension ZGSectionScalendarViewController:UICollectionViewDelegate,UICollection
         if self.selectType == ZGSenctionSelectType.ZGSenctionSelectTypeOneDate {
                 startDate = calendarItem.dateInterval
                 if endDelegate != nil {
-                    endDelegate?.onleSelectOneDateCallBack(selectTime: startDate)
+                    endDelegate?.onleSelectOneDateCallBack(selectTime: startDate!)
                 }
                  self.navigationController?.dismiss(animated: true, completion: nil)
             return
