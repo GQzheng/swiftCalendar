@@ -7,14 +7,18 @@
 //
 
 import UIKit
-enum ZGSenctionScalendarType{
+enum ZGSenctionScalendarType{ //日历显示的类型 可选过去/可选将来
     case ZGSenctionScalendarPastType
     case ZGSenctionScalendarMidType
     case ZGSenctionScalendarFutureType
 }
+enum ZGSenctionSelectType{ //日历选择的类型 可选一天日期/可选一个日期区间
+    case ZGSenctionSelectTypeOneDate
+    case ZGSenctionSelectTypeAreaDate
+}
 
 protocol ScalendarProtocol:NSObjectProtocol {
-    func callBack(beginTime:Int,endTime:Int)
+    func callBack(beginTime:Int,endTime:Int?)
 }
 
 public let defaultTextColor =  UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)//默认字体颜色
@@ -28,6 +32,7 @@ class ZGSectionScalendarViewController: UIViewController {
     var limitMonth: NSInteger?
     
     var type : ZGSenctionScalendarType!
+    var selectType : ZGSenctionSelectType!
     var afterTodayCanTouch : Bool = true
     var BeforeTodayCanTouch: Bool = false
     var showChineseHoliday :Bool = true
@@ -158,23 +163,33 @@ extension ZGSectionScalendarViewController:UICollectionViewDelegate,UICollection
                 dataCell.subLabel.textColor = selectDateBackGroundColor
             }
         }
-        if calendarItem.dateInterval == startDate{//开始日期
-            dataCell.isSelected = true
-            dataCell.dataLabel.textColor = UIColor.white
-            dataCell.subLabel.textColor = UIColor.white
-            dataCell.backgroundColor = selectDateBackGroundColor
-        }else if calendarItem.dateInterval == endDate {//结束日期
-            dataCell.isSelected = true
-            dataCell.dataLabel.textColor = UIColor.white
-            dataCell.subLabel.textColor = UIColor.white
-            dataCell.backgroundColor = selectDateBackGroundColor
-        }else if calendarItem.dateInterval! > startDate! && calendarItem.dateInterval!  < endDate! {//中间日期
-            dataCell.isSelected = true
-            dataCell.dataLabel.textColor = defaultTextColor
-            dataCell.subLabel.textColor = defaultTextColor
-            dataCell.backgroundColor = UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 0.1)
+        
+        if self.selectType == ZGSenctionSelectType.ZGSenctionSelectTypeOneDate{
+            if calendarItem.dateInterval == startDate{//开始日期
+                dataCell.isSelected = true
+                dataCell.dataLabel.textColor = UIColor.white
+                dataCell.subLabel.textColor = UIColor.white
+                dataCell.backgroundColor = selectDateBackGroundColor
+            }
         }else{
-           
+            if calendarItem.dateInterval == startDate{//开始日期
+                dataCell.isSelected = true
+                dataCell.dataLabel.textColor = UIColor.white
+                dataCell.subLabel.textColor = UIColor.white
+                dataCell.backgroundColor = selectDateBackGroundColor
+            }else if calendarItem.dateInterval == endDate {//结束日期
+                dataCell.isSelected = true
+                dataCell.dataLabel.textColor = UIColor.white
+                dataCell.subLabel.textColor = UIColor.white
+                dataCell.backgroundColor = selectDateBackGroundColor
+            }else if calendarItem.dateInterval! > startDate! && calendarItem.dateInterval!  < endDate! {//中间日期
+                dataCell.isSelected = true
+                dataCell.dataLabel.textColor = defaultTextColor
+                dataCell.subLabel.textColor = defaultTextColor
+                dataCell.backgroundColor = UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 0.1)
+            }else{
+                
+            }
         }
         if afterTodayCanTouch == false {
             if calendarItem.type == ZGSectionScalendType.ZGSNextType {
@@ -192,6 +207,7 @@ extension ZGSectionScalendarViewController:UICollectionViewDelegate,UICollection
                 dataCell.isUserInteractionEnabled = false
             }
         }
+        
 //
         return dataCell!
     }
@@ -207,8 +223,21 @@ extension ZGSectionScalendarViewController:UICollectionViewDelegate,UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        
         let headerItem = dataArray[indexPath.section] as! ZGSectionCalendarHeaderModel
         let calendarItem = headerItem.calendarItemArray[indexPath.row] as! ZGSectionCalendarModel
+        
+        if self.selectType == ZGSenctionSelectType.ZGSenctionSelectTypeOneDate {
+                startDate = calendarItem.dateInterval
+                if endDelegate != nil {
+                    endDelegate?.callBack(beginTime: startDate!, endTime: 0)
+                }
+                 self.navigationController?.dismiss(animated: true, completion: nil)
+            return
+        }
+        
         if startDate == 0{
             startDate = calendarItem.dateInterval
         }else if startDate! > 0 && endDate! < 0 {
