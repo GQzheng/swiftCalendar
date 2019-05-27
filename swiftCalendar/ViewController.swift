@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         zg.startDate = startDate
         zg.endDate = endDate
         zg.type = ZGSenctionScalendarType.ZGSenctionScalendarFutureType//默认展示 future
-        zg.selectType = ZGSenctionSelectType.ZGSenctionSelectTypeOneDate//默认区间选择
+        zg.selectType = ZGSenctionSelectType.ZGSenctionSelectTypeAreaDate//默认区间选择
         
         let nav = UINavigationController.init(rootViewController: zg)
         zg.title = "入住离店日期"

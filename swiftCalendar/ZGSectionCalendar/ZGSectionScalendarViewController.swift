@@ -25,28 +25,26 @@ extension ScalendarProtocol{
     func callBack(beginTime:Int,endTime:Int) {}
     func onleSelectOneDateCallBack(selectTime:Int) {}
 }
-public let defaultTextColor =  UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)//默认字体颜色
-public let selectDateBackGroundColor =  UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 1)//选中日期背景色
-public let failureDateTextColor =  UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)//过期日期字体颜色
+public let defaultTextColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)//默认字体颜色
+public let selectDateBackGroundColor = UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 1)//选中日期背景色
+public let failureDateTextColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)//过期日期字体颜色
 
 class ZGSectionScalendarViewController: UIViewController {
     let cellHeaderViewHight = 50
     var startDate : Int? = 0
     var endDate   : Int? = 0
-    var limitMonth: NSInteger?
-    
+    var limitMonth: NSInteger? // 可选择的月份数量
     var type : ZGSenctionScalendarType = ZGSenctionScalendarType.ZGSenctionScalendarFutureType
     var selectType : ZGSenctionSelectType = ZGSenctionSelectType.ZGSenctionSelectTypeAreaDate
     var afterTodayCanTouch : Bool = true
     var BeforeTodayCanTouch: Bool = false
-    var showChineseHoliday :Bool = true
-    var ShowChineseCalendar:Bool = true
-    var ShowHolidayColor   :Bool = true
-    var showAlertView      :Bool = true
+    var showChineseHoliday : Bool = true
+    var ShowChineseCalendar: Bool = true
+    var ShowHolidayColor   : Bool = true
+    var showAlertView      : Bool = true
     
     var dataArray=[Any]()
     var collectionView : UICollectionView!
-    var dataCell:ZGSScalendarViewCell!
     let weekArray = ["日","一","二","三","四","五","六"]
     
     weak var endDelegate:ScalendarProtocol?
@@ -55,10 +53,9 @@ class ZGSectionScalendarViewController: UIViewController {
         super.viewDidLoad()
         initDataSource()
         creatUi()
-        
     }
     func addWeakView() {
-        let weekView = UIView.init(frame: CGRect.init(x: 0, y: STATUS_NAV_BAR_Y, width: UIScreen.main.bounds.size.height, height: 40))
+        let weekView = UIView.init(frame: CGRect.init(x: 0, y: STATUS_NAV_BAR_Y, width: UIScreen.main.bounds.size.width, height: 40))
         weekView.backgroundColor = UIColor(red: 0.91, green: 0.91, blue: 0.91, alpha: 1)
         self.view.addSubview(weekView)
         let weekWidth = UIScreen.main.bounds.size.width / 7
@@ -111,21 +108,19 @@ class ZGSectionScalendarViewController: UIViewController {
         addWeakView()
         
         let flowLayout = UICollectionViewFlowLayout.init()
-        flowLayout.itemSize=CGSize.init(width: 55, height: 60)
+        flowLayout.itemSize=CGSize.init(width: ScreenWidth / 7, height: 60)
         flowLayout.headerReferenceSize=CGSize.init(width: UIScreen.main.bounds.size.width, height: CGFloat(cellHeaderViewHight))
         flowLayout.sectionInset=UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         flowLayout.minimumLineSpacing=0
         flowLayout.minimumInteritemSpacing=0
 
-        collectionView=UICollectionView.init(frame: CGRect.init(x: 0, y: STATUS_NAV_BAR_Y + 40, width: 55*7, height: UIScreen.main.bounds.size.height-STATUS_NAV_BAR_Y-40), collectionViewLayout: flowLayout)
+        collectionView=UICollectionView.init(frame: CGRect.init(x: 0, y: STATUS_NAV_BAR_Y + 40, width: ScreenWidth, height: UIScreen.main.bounds.size.height-STATUS_NAV_BAR_Y-40), collectionViewLayout: flowLayout)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor=UIColor.white
         collectionView.register(ZGSScalendarViewCell.self, forCellWithReuseIdentifier: "ZGSScalendarViewCell")
         collectionView.register(ZGScalendarReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ZGScalendarReusableView")
         self.view.addSubview(self.collectionView!)
-//
-        
     }
 
 }
@@ -140,79 +135,72 @@ extension ZGSectionScalendarViewController:UICollectionViewDelegate,UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        dataCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ZGSScalendarViewCell", for: indexPath) as? ZGSScalendarViewCell
+        let dataCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ZGSScalendarViewCell", for: indexPath) as? ZGSScalendarViewCell
         let headerItem = dataArray[indexPath.section] as! ZGSectionCalendarHeaderModel
         let calendarItem = headerItem.calendarItemArray[indexPath.row] as! ZGSectionCalendarModel
-        dataCell.dataLabel.text = ""
-        dataCell.dataLabel.textColor = defaultTextColor
-        dataCell.subLabel.text = ""
-        dataCell.subLabel.textColor = defaultTextColor
-        dataCell.backgroundColor = UIColor.white
-        dataCell.isSelected = false
-        dataCell.isUserInteractionEnabled = false
-        dataCell.lineView.isHidden = true
+        dataCell!.dataLabel.text = ""
+        dataCell!.dataLabel.textColor = defaultTextColor
+        dataCell!.subLabel.text = ""
+        dataCell!.subLabel.textColor = defaultTextColor
+        dataCell!.backgroundColor = UIColor.white
+        dataCell!.isSelected = false
+        dataCell!.isUserInteractionEnabled = false
+        dataCell!.lineView.isHidden = true
         if calendarItem.day! > 0 {
-            dataCell.lineView.isHidden = false
-            dataCell.dataLabel.text = (calendarItem.day! as NSNumber).stringValue
-            dataCell.isUserInteractionEnabled = true
+            dataCell!.lineView.isHidden = false
+            dataCell!.dataLabel.text = (calendarItem.day! as NSNumber).stringValue
+            dataCell!.isUserInteractionEnabled = true
         }
-        if ShowChineseCalendar == true {
-                dataCell.subLabel.text = calendarItem.chineseCalendar
-        }else{
-                dataCell.subLabel.text = ""
-        }
+        dataCell!.subLabel.text = ShowChineseCalendar == true ? calendarItem.chineseCalendar : ""
         if calendarItem.holiday != "" && calendarItem.holiday?.isEmpty != true && calendarItem.holiday != nil{
-            dataCell.subLabel.text = calendarItem.holiday
+            dataCell!.subLabel.text = calendarItem.holiday
             if ShowHolidayColor {
-                dataCell.subLabel.textColor = selectDateBackGroundColor
+                dataCell!.subLabel.textColor = selectDateBackGroundColor
             }
         }
         
         if self.selectType == ZGSenctionSelectType.ZGSenctionSelectTypeOneDate{
             if calendarItem.dateInterval == startDate{//开始日期
-                dataCell.isSelected = true
-                dataCell.dataLabel.textColor = UIColor.white
-                dataCell.subLabel.textColor = UIColor.white
-                dataCell.backgroundColor = selectDateBackGroundColor
+                dataCell!.isSelected = true
+                dataCell!.dataLabel.textColor = UIColor.white
+                dataCell!.subLabel.textColor = UIColor.white
+                dataCell!.backgroundColor = selectDateBackGroundColor
             }
         }else{
             if calendarItem.dateInterval == startDate{//开始日期
-                dataCell.isSelected = true
-                dataCell.dataLabel.textColor = UIColor.white
-                dataCell.subLabel.textColor = UIColor.white
-                dataCell.backgroundColor = selectDateBackGroundColor
+                dataCell!.isSelected = true
+                dataCell!.dataLabel.textColor = UIColor.white
+                dataCell!.subLabel.textColor = UIColor.white
+                dataCell!.backgroundColor = selectDateBackGroundColor
             }else if calendarItem.dateInterval == endDate {//结束日期
-                dataCell.isSelected = true
-                dataCell.dataLabel.textColor = UIColor.white
-                dataCell.subLabel.textColor = UIColor.white
-                dataCell.backgroundColor = selectDateBackGroundColor
+                dataCell!.isSelected = true
+                dataCell!.dataLabel.textColor = UIColor.white
+                dataCell!.subLabel.textColor = UIColor.white
+                dataCell!.backgroundColor = selectDateBackGroundColor
             }else if calendarItem.dateInterval! > startDate! && calendarItem.dateInterval!  < endDate! {//中间日期
-                dataCell.isSelected = true
-                dataCell.dataLabel.textColor = defaultTextColor
-                dataCell.subLabel.textColor = defaultTextColor
-                dataCell.backgroundColor = UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 0.1)
+                dataCell!.isSelected = true
+                dataCell!.dataLabel.textColor = defaultTextColor
+                dataCell!.subLabel.textColor = defaultTextColor
+                dataCell!.backgroundColor = UIColor(red: 0.84, green: 0, blue: 0.14, alpha: 0.1)
             }else{
-                
             }
         }
         if afterTodayCanTouch == false {
             if calendarItem.type == ZGSectionScalendType.ZGSNextType {
-                dataCell.dataLabel.textColor = failureDateTextColor
-                dataCell.subLabel.textColor = failureDateTextColor
-                dataCell.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1)
-                dataCell.isUserInteractionEnabled = false
+                dataCell!.dataLabel.textColor = failureDateTextColor
+                dataCell!.subLabel.textColor = failureDateTextColor
+                dataCell!.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1)
+                dataCell!.isUserInteractionEnabled = false
             }
         }
         if BeforeTodayCanTouch == false {
             if calendarItem.type == ZGSectionScalendType.ZGSLastType {
-                dataCell.dataLabel.textColor = failureDateTextColor
-                dataCell.subLabel.textColor = failureDateTextColor
-                dataCell.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1)
-                dataCell.isUserInteractionEnabled = false
+                dataCell!.dataLabel.textColor = failureDateTextColor
+                dataCell!.subLabel.textColor = failureDateTextColor
+                dataCell!.backgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1)
+                dataCell!.isUserInteractionEnabled = false
             }
         }
-        
-//
         return dataCell!
     }
     
